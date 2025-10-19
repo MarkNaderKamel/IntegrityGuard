@@ -186,4 +186,4 @@ If you find **IntegrityGuard** useful, please give it a ⭐ on GitHub — it hel
 ---
 
 > **IntegrityGuard** — Because Security Should Be Simple 🛡️  
-> _Developed with ❤️ in PHP_
+> _Developed By Mark in PHP_
