@@ -1,70 +1,82 @@
-# IntegrityGuard
-# 🛡️ IntegrityGuard – File Integrity Monitoring System
+# 🛡️ IntegrityGuard  
+![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue?logo=php)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Status-Stable-brightgreen)
+![Security](https://img.shields.io/badge/Security-Checked-success)
 
-IntegrityGuard is a lightweight and secure **File Integrity Monitoring (FIM)** system built in PHP.  
-It monitors directories, detects file changes, and sends instant email alerts when unauthorized modifications are detected.
+### Lightweight PHP-Based File Integrity Monitoring (FIM) System
+
+**IntegrityGuard** is a secure, self-hosted, and lightweight **File Integrity Monitoring (FIM)** system built in PHP.  
+It continuously monitors directories, detects unauthorized file changes, and instantly sends **email alerts** when suspicious modifications occur.
 
 ---
 
 ## 🚀 Features
 
-- 🧠 Generates a **baseline** snapshot of all files (names, sizes, hashes).
-- 🔍 Detects and reports:
-  - New files added
-  - Existing files modified
-  - Files deleted
-- 📧 Sends **email alerts** automatically when changes occur.
-- ⚙️ Can be automated via **Cron Job** or manual execution.
-- 🔒 Excludes specific files or folders from monitoring.
-- 🌐 Simple web interface for configuration and testing.
+- 🧠 **Baseline Generation** — Create secure snapshots of all files (name, size, hash).  
+- 🔍 **Change Detection** — Detects:
+  - 🆕 New files added  
+  - ✏️ Existing files modified  
+  - ❌ Files deleted  
+- 📧 **Email Notifications** — Sends automatic alerts when file changes are detected.  
+- ⚙️ **Automation Ready** — Can be triggered manually or via a Cron Job.  
+- 🔒 **Smart Exclusion Rules** — Exclude specific directories or files from scans.  
+- 🌐 **Simple Web Interface** — Intuitive interface for configuration, scanning, and testing.
 
 ---
 
-## 🧩 File Structure
+## 📁 File Structure
 
 | File | Description |
 |------|--------------|
-| `index.php` | Entry page for the monitoring system; can trigger scans or show logs. |
-| `monitor.php` | Core monitoring engine that scans directories and compares file hashes. |
-| `baseline.php` | Generates or updates the baseline file containing original hashes. |
-| `config.php` | Main configuration file (defines monitored path, exclusions, etc.). |
-| `email_config.php` | Stores SMTP credentials and email recipient info. |
-| `email_sender.php` | Handles the sending of email alerts using configured SMTP. |
-| `get_path.php` | Retrieves or validates the directory to monitor. |
-| `test_email.php` | Tests SMTP and email delivery configuration. |
+| **index.php** | Entry dashboard for the monitoring system (manual scan or logs view). |
+| **monitor.php** | Core engine that scans directories and compares file hashes. |
+| **baseline.php** | Generates or updates the baseline snapshot of all files. |
+| **config.php** | Defines monitored paths, exclusions, and general configuration. |
+| **email_config.php** | Stores SMTP credentials and recipient information. |
+| **email_sender.php** | Handles PHPMailer or mail() alerts delivery. |
+| **get_path.php** | Retrieves and validates target directory paths. |
+| **test_email.php** | Tests SMTP configuration and verifies email delivery. |
 
 ---
 
 ## ⚙️ Requirements
 
-- **PHP 7.4+** (recommended: PHP 8.0+)
+- **PHP 7.4+** (Recommended: PHP 8.0+)
 - Enabled PHP functions:
   - `hash_file()`
   - `json_encode()`, `json_decode()`
-  - `mail()` or PHPMailer SMTP support
-- Proper file read permissions for monitored directories
-- (Optional) Cron Job access for automation
+  - `mail()` or PHPMailer (for SMTP)
+- Proper file read permissions on monitored directories  
+- *(Optional)* Cron access for automation
 
 ---
 
 ## 🛠️ Installation & Setup
 
-### 1. Upload Files
-Upload the entire SentinelPHP folder (contents of `Monitor.zip`) to your web server.
+### 1. 📦 Upload Files
+Upload the entire **IntegrityGuard** folder to your web server.
 
-### 2. Configure Directory
-Open `config.php` and update settings:
+---
+
+### 2. ⚙️ Configure Directory
+
+Edit `config.php` to define what to monitor:
+
 ```php
 return [
-    'rootDir' => '/path/to/monitor',   // Directory you want to monitor
+    'rootDir' => '/path/to/monitor',   // Directory to monitor
     'excluded' => ['vendor', 'cache'], // Directories to ignore
 ];
+```
 
+---
 
-3. Configure Email Alerts
+### 3. ✉️ Configure Email Alerts
 
-Edit email_config.php:
+Edit `email_config.php` with your SMTP settings:
 
+```php
 return [
     'smtp_host' => 'smtp.example.com',
     'smtp_port' => 587,
@@ -72,60 +84,106 @@ return [
     'smtp_pass' => 'yourpassword',
     'recipient' => 'admin@example.com',
 ];
+```
 
+---
 
-4. Generate Baseline
+### 4. 🧾 Generate Baseline
 
-Run baseline.php to create the initial snapshot of monitored files:
+Create the initial file snapshot by visiting:
 
+```
 https://yourdomain.com/baseline.php
+```
 
-5. Run Monitoring Script
+---
 
-Manually check for file changes anytime:
+### 5. 🔎 Run Monitoring Script
 
+Manually check for file changes at any time:
+
+```
 https://yourdomain.com/monitor.php
+```
 
-6. Automate via Cron (Recommended)
+---
 
-Add this to your crontab to run every 6 hours:
+### 6. ⏰ Automate with Cron (Recommended)
 
+Add the following line to your **crontab** to run every 6 hours:
+
+```
 0 */6 * * * /usr/bin/php /path/to/monitor/monitor.php
+```
 
+This ensures continuous scanning and automatic alerts for any unauthorized file changes.
 
-This ensures automated scanning and alerting of file changes.
+---
 
-🧪 Testing Email Functionality
+## 🧪 Testing Email Functionality
 
-Ensure SMTP settings in email_config.php are correct.
+To confirm SMTP configuration works correctly, visit:
 
-Visit:
-
+```
 https://yourdomain.com/test_email.php
+```
 
+You should receive a test confirmation email.
 
-You should receive a confirmation email verifying that alerts are working.
+---
 
-📬 Example Alert Email
-Subject: File Change Detected - SentinelPHP Alert
+## 📬 Example Alert Email
 
+**Subject:** `File Change Detected - IntegrityGuard Alert`
+
+**Message:**
+```
 Changes detected in monitored directory:
 - Modified: /public_html/index.php
 - Added: /public_html/new_file.php
 - Deleted: /public_html/old_script.php
+```
 
-🧰 Troubleshooting
+---
 
-No Emails Sent:
-Check SMTP credentials and port in email_config.php.
-Use test_email.php to confirm email functionality.
+## 🧰 Troubleshooting
 
-Script Timeout:
-Increase PHP execution limits (already set to unlimited in monitor.php):
+### ❌ No Emails Sent
+- Verify SMTP credentials and port in `email_config.php`.  
+- Use `test_email.php` to confirm mail functionality.
 
+### 🕒 Script Timeout
+Increase PHP execution limits (already configured in `monitor.php`):
+
+```php
 set_time_limit(0);
 ini_set('memory_limit', '256M');
+```
 
+### 🔐 Permission Errors
+Ensure PHP has **read access** to the target directory.
 
-Permission Errors:
-Ensure PHP has read access to the target directory.
+---
+
+## 🧾 License
+
+This project is licensed under the **MIT License**.  
+You are free to use, modify, and distribute with proper attribution.
+
+---
+
+## 💡 Contributing
+
+Pull requests are welcome!  
+For major updates or enhancements, open an issue to discuss proposed changes first.
+
+---
+
+## ⭐ Support the Project
+
+If you find **IntegrityGuard** useful, please give it a ⭐ on GitHub — it helps others discover the project and supports further development!
+
+---
+
+> **IntegrityGuard** — Because Security Should Be Simple 🛡️  
+> _Developed with ❤️ in PHP_
